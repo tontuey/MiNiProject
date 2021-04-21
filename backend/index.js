@@ -28,9 +28,16 @@ router.post('/login', (req, res, next) => {
         console.log('Login: ', req.body, user, err, info)
         if (err) return next(err)
         if (user) {
+            console.log("Body:",req.body);
+            if (req.body.remember == true) {
+              exp = "7d";
+            } else exp = "1d";
             const token = jwt.sign(user, db.SECRET, {
-                expiresIn: '1d'
-            })
+                expiresIn: exp,
+            });
+            var decoded = jwt.decode(token);
+            let time = new Date(decoded.exp * 1000);
+            console.log(new Date(decoded.exp * 1000));
             // req.cookie.token = token
             res.setHeader(
                 "Set-Cookie",
@@ -101,6 +108,49 @@ router.get('/alluser', (req, res) => res.json(db.users.users))
 router.get('/', (req, res, next) => {
     res.send('Respond without authentication');
 });
+
+let students = {
+    list : [
+        {id:1,name:"TT",major:"CoE",gpa:3.37},
+        {id:2,name:"YP",major:"SE",gpa:3.59}
+    ]
+    
+}
+
+
+
+router.route('/students')
+ .get ((req,res)=>{
+     res.json(students);
+ })
+
+ .post ((req,res)=>{
+    let id = (students.list.length)?students.list[students.list.length-1].id+1:1
+     let name = req.body.name
+     let major = req.body.major
+     let gpa = req.body.gpa
+     students.list = [...students.list,{id,name,major,gpa}]
+     res.json(students);
+ })
+
+ router.route('/students/:std_id')
+  .get((req,res)=>{
+    let id = students.list.findIndex((item) => (item.id === +req.params.std_id))
+    res.json(students.list[id]);
+  })
+
+  .put((req,res)=>{
+      let id = students.list.findIndex((item) => (item.id === +req.params.std_id))
+      students.list[id].name = req.body.name
+      students.list[id].major = req.body.major
+      students.list[id].gpa = req.body.gpa
+      res.json(students)
+  })
+
+  .delete((req,res)=>{
+      students.list = students.list.filter((item) => item.id !== +req.params.std_id)
+      res.json(students);
+  })
 
 // Error Handler
 app.use((err, req, res, next) => {
