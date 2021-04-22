@@ -65,7 +65,7 @@ if (!data) {
     <div className={styles.container}>
         <Navbar />
         <br></br>
-        <h1>Our lovely students</h1>
+        <h1>Recipes</h1>
        <h4> Student : Name : {student.name}__Major : {student.major}__GPA : {student.gpa} </h4>
         <br></br>
       <div className={styles.list}>

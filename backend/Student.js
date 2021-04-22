@@ -12,8 +12,8 @@ app.use('/api',bodyParser.urlencoded({extended:false}),router);
 
 let students = {
     list : [
-        {id:1,name:"TT",major:"CoE",gpa:3.37},
-        {id:2,name:"YP",major:"SE",gpa:3.59}
+        {id:1,name:"AT",major:"CoE",gpa:3.37},
+        {id:2,name:"OO",major:"SE",gpa:3.59}
     ]
     
 }
