@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt')
 
 const db = require('./database.js')
 let users = db.users
-
+let Recipes = db.Recipes
 require('./passport.js')
 
 const router = require('express').Router(),
@@ -78,11 +78,7 @@ router.get('/profile',
         res.send(req.user)
     });
 
-router.get('/foo',
-    passport.authenticate('jwt', { session: false }),
-    (req, res, next) => {
-        res.send("Foo")
-    });
+
 
 router.post('/register',
     async (req, res) => {
@@ -109,47 +105,42 @@ router.get('/', (req, res, next) => {
     res.send('Respond without authentication');
 });
 
-let students = {
-    list : [
-        {id:1,name:"ไข่เจียวฟูกรอบ",major:"ไข่ไก่ 2 ฟอง,ซอสปรุงรส 2 ช้อนชา,น้ำมัน 1/2 กระทะ",gpa:"1.ตีไข่และปรุงรส 2.เทน้ำมันใส่กระทะตั้งให้น้ำมันร้อน 3.พอน้ำมันเดือดนำกระชอนมากรองไข่ใส่กระทะให้ไข่ฟู พอไข่เริ่มมีสีเหลืองทองแล้วพลิกไข่อีกด้าน แล้วเจียวให้สุก พร้อมจัดเสิร์ฟ"},
-        {id:2,name:"หมูทอดน้ำปลา",major:"สะโพกหมูหั่นเป็นเส้น 1/2 กิโลกรัม,น้ำปลา 3 ช้อนโต๊ะ,พริกไทยดำ 1 ช้อนชา,น้ำมัน 1/2 กระทะ",gpa:"1.นำหมูไปล้างแล้วหั่น 2.หมักด้วยน้ำปลาและพริกไทย 3.เทน้ำมัน เปิดไฟกลางจนน้ำมันร้อนแล้ว"}
-    ]
-    
-}
 
 
 
-router.route('/students')
+
+router.route('/Recipes')
  .get ((req,res)=>{
-     res.json(students);
+     console.log(Recipes)
+     res.json(Recipes);
  })
 
  .post ((req,res)=>{
-    let id = (students.list.length)?students.list[students.list.length-1].id+1:1
+    let id = (Recipes.list.length)?Recipes.list[Recipes.list.length-1].id+1:1
      let name = req.body.name
-     let major = req.body.major
-     let gpa = req.body.gpa
-     students.list = [...students.list,{id,name,major,gpa}]
-     res.json(students);
+     let ingredients = req.body.ingredients
+     let cooking  = req.body.cooking 
+     Recipes.list = [...Recipes.list,{id,name,ingredients,cooking }]
+     res.json(Recipes);
  })
 
- router.route('/students/:std_id')
+ router.route('/Recipes/:rc_id')
   .get((req,res)=>{
-    let id = students.list.findIndex((item) => (item.id === +req.params.std_id))
-    res.json(students.list[id]);
+    let id = Recipes.list.findIndex((item) => (item.id === +req.params.rc_id))
+    res.json(Recipes.list[id]);
   })
 
   .put((req,res)=>{
-      let id = students.list.findIndex((item) => (item.id === +req.params.std_id))
-      students.list[id].name = req.body.name
-      students.list[id].major = req.body.major
-      students.list[id].gpa = req.body.gpa
-      res.json(students)
+      let id = Recipes.list.findIndex((item) => (item.id === +req.params.rc_id))
+      Recipes.list[id].name = req.body.name
+      Recipes.list[id].ingredients = req.body.ingredients
+      Recipes.list[id].cooking  = req.body.cooking 
+      res.json(Recipes)
   })
 
   .delete((req,res)=>{
-      students.list = students.list.filter((item) => item.id !== +req.params.std_id)
-      res.json(students);
+      Recipes.list = Recipes.list.filter((item) => item.id !== +req.params.rc_id)
+      res.json(Recipes);
   })
 
 // Error Handler

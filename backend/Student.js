@@ -10,17 +10,10 @@ app.use(cors());
 app.use('/api',bodyParser.json(),router);
 app.use('/api',bodyParser.urlencoded({extended:false}),router);
 
-let students = {
-    list : [
-        {id:1,name:"AT",major:"CoE",gpa:3.37},
-        {id:2,name:"OO",major:"SE",gpa:3.59}
-    ]
-    
-}
 
 
 
-router.route('/students')
+/*router.route('/students')
  .get ((req,res)=>{
      res.json(students);
  })
@@ -51,7 +44,7 @@ router.route('/students')
   .delete((req,res)=>{
       students.list = students.list.filter((item) => item.id !== +req.params.std_id)
       res.json(students);
-  })
+  })*/
 
 
   app.use("*", (req, res) => res.status(404).send('404 Not found'));

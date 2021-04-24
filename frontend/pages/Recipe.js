@@ -7,12 +7,12 @@ import styles from '../styles/Home.module.css'
 import withAuth from '../components/withAuth'
 import config from '../config/config'
 import axios from 'axios';
-const URL = `http://localhost/api/students`
+const URL = `http://localhost/api/Recipes`
 // const fetcher = url => axios.get(url).then(res => res.data);
 
 const admin = ({ token }) => {
   
-    const [students, setStudents] = useState({ })
+    const [students, setStudents] = useState({})
     const [student, setStudent] = useState({});
     const [name, setName] = useState('');
     const [major, setMajor] = useState('');
@@ -108,8 +108,7 @@ const getStudent = async (id) => {
             </div>
         
         )
-
-
+        
 };
       
     
