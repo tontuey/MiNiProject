@@ -120,7 +120,8 @@ router.route('/Recipes')
      let name = req.body.name
      let ingredients = req.body.ingredients
      let cooking  = req.body.cooking 
-     Recipes.list = [...Recipes.list,{id,name,ingredients,cooking }]
+     let cost  = req.body.cost
+     Recipes.list = [...Recipes.list,{id,name,ingredients,cooking ,cost }]
      res.json(Recipes);
  })
 
@@ -135,6 +136,7 @@ router.route('/Recipes')
       Recipes.list[id].name = req.body.name
       Recipes.list[id].ingredients = req.body.ingredients
       Recipes.list[id].cooking  = req.body.cooking 
+      Recipes.list[id].cost  = req.body.cost
       res.json(Recipes)
   })
 

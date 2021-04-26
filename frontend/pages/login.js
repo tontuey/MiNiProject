@@ -86,7 +86,7 @@ export default function Login({ token }) {
                 <br />
                 {loginForm()}
                 <div>
-                    <button onClick={login}>Login</button>
+                    <button className={styles.buttoncolorLogin} onClick={login}>Login</button>
                 </div>
             </div>
         </Layout>

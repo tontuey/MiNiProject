@@ -89,7 +89,7 @@ export default function Register({ token }) {
                 </div>
 
                 <div>
-                    <button onClick={register}>Register</button>
+                    <button className={styles.buttoncolorReg} onClick={register}>Register</button>
                 </div>
             </div>
         </Layout>

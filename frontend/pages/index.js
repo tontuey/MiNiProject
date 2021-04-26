@@ -22,15 +22,16 @@ if (!data) {
       return <div><h1>Please wait...</h1></div>
  }
  const searchMenu = (str) => {
-   if(str == '')
-    setName('')
-   for(let i = 0 ;i <data.list.length;i++)
+    if(str == '')
+      setName('')
+    else
+   {for(let i = 0 ;i <data.list.length;i++)
     {let strtest = data.list[i].name
     let n = strtest.includes(str)
     if(n){
       setName(data.list[i].name)
     }
-    }
+    }}
  }
  const printRecipes = (data) => {
   if(max == 0 || max == '')
@@ -86,12 +87,13 @@ if (!data) {
         <Navbar />
         <br></br>
         <h1>Recipes</h1>
-       
-        <br></br>
-      <div className={styles.list}>
-      ช่วงราคา : <input type="number" placeholder="min" onChange={(e) => setMin(e.target.value)}></input>
+        <div>
+       ช่วงราคา : <input type="number" placeholder="min" onChange={(e) => setMin(e.target.value)}></input>
       <input type="number" placeholder="max" onChange={(e) => setMax(e.target.value)}></input> ค้นหาชื่อเมนู : 
-      <input type="text" placeholder="ชื่อเมนู" onChange={(e) => searchMenu(e.target.value)}></input>          
+      <input type="text" placeholder="ชื่อเมนู" onChange={(e) => searchMenu(e.target.value)}></input>    
+      </div>
+      <div className={styles.list}>
+            
       {printRecipes(data.list)} 
                    
       

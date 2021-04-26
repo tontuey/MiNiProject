@@ -1,24 +1,24 @@
-//import Head from 'next/head'
+
 import { useState, useEffect } from 'react'
 import Navbar from '../components/navbar'
 import styles from '../styles/Home.module.css'
-//import useSWR, { mutate } from 'swr';
-// import styles from '../styles/Student.module.css'
 import withAuth from '../components/withAuth'
 import config from '../config/config'
 import axios from 'axios';
+import Layout from '../components/layout'
 const URL = `http://localhost/api/Recipes`
-// const fetcher = url => axios.get(url).then(res => res.data);
+
 
 const admin = ({ token }) => {
   
-    const [students, setStudents] = useState({})
-    const [student, setStudent] = useState({});
+    const [recipes, setRecipes] = useState({})
+    const [recipe, setRecipe] = useState({});
     const [name, setName] = useState('');
-    const [major, setMajor] = useState('');
-    const [gpa, setGpa] = useState(0);
+    const [ingredients, setIngredients] = useState('');
+    const [cooking, setCooking] = useState('');
+    const [cost, setCost] = useState(0);
     useEffect(() => {
-      getStudents();
+      getRecipes();
       profileUser();
     }, []);
     const profileUser = async () => {
@@ -35,49 +35,50 @@ const admin = ({ token }) => {
       };
     
 
-const getStudents = async () => {
-        let student = await axios.get(URL)
-        setStudents(student.data)
+const getRecipes = async () => {
+        let recipe = await axios.get(URL)
+        setRecipes(recipe.data)
     
 }
-const getStudent = async (id) => {
-        let student = await axios.get(`${URL}/${id}`);
-        setStudent(student.data)
+const getRecipe = async (id) => {
+        let recipe = await axios.get(`${URL}/${id}`);
+        setRecipe(recipe.data)
 }
-      const addStudent = async (name, major, gpa) => {
-        let student = await axios.post(URL, { name, major, gpa })
-        console.log(student.data);
-        getStudents();
+      const addRecipe = async (name, ingredients, cooking ,cost) => {
+        let recipe = await axios.post(URL, { name, ingredients, cooking ,cost})
+        console.log(recipe.data);
+        getRecipes();
        
       }
-      const updateStudent = async (id) => {
-        let student = await axios.put(`${URL}/${id}`, { name, major, gpa })
-        setStudents(student.data)
-        getStudents();
+      const updateRecipe = async (id) => {
+        let recipe = await axios.put(`${URL}/${id}`, { name, ingredients, cooking ,cost })
+        setRecipes(recipe.data)
+        getRecipes();
       }
     
-      const deleteStudent = async (id) => {
-        let student = await axios.delete(`${URL}/${id}`, { name, major, gpa })
-        getStudents();
+      const deleteRecipe = async (id) => {
+        let recipe = await axios.delete(`${URL}/${id}`, { name, ingredients, cooking ,cost })
+        getRecipes();
       }
     
-      const printStudents = () => {
-        if (students.list && students.list.length) {
-            return students.list.map((item, index) => {
+      const printRecipes = () => {
+        if (recipes.list && recipes.list.length) {
+            return recipes.list.map((item, index) => {
               return (
                 <div className={styles.listItem} key={index}>
-                    {index+1}
-                  <b> Name:</b> {item.name} <br />
-                  <b>Major:</b> {item.major} <br />
-                  <b>GPA:</b> {item.gpa}
+                   
+                  <b> {index+1}.) Name:</b>{item.name}  <br />
+                  <b>Ingredients:</b> {item.ingredients} <br />
+                  <b>Cooking:</b> {item.cooking} <br />
+                  <b>Cost:</b> {item.cost} <br />
                   <div >
-                    <button onClick={() => getStudent(item.id)} >
+                    <button onClick={() => getRecipe(item.id)} >
                       Get
                     </button>
-                    <button onClick={() => updateStudent(item.id)} >
+                    <button onClick={() => updateRecipe(item.id)} >
                       Update
                     </button>
-                    <button onClick={() => deleteStudent(item.id)}>
+                    <button onClick={() => deleteRecipe(item.id)}>
                       Delete
                     </button>
                   </div>
@@ -92,21 +93,29 @@ const getStudent = async (id) => {
 
 
     return (
+      <Layout>
             <div className={styles.container}>
                 <Navbar />
-            <h1>Our lovely students</h1>
-            
-            Student : Name : {student.name}__Major : {student.major}__GPA : {student.gpa}
-            <h2>Add Student</h2>
-            Name:<input type="text" onChange={(e) => setName(e.target.value)}></input>
-            Major:<input type="text" onChange={(e) => setMajor(e.target.value)}></input>
-            GPA:<input type="number" onChange={(e) => setGpa(e.target.value)}></input>
-            <br></br>
-            <button  onClick={() => addStudent(name, major, gpa)}>Add</button>
-            <h3>Our Student</h3>
-            <ul>{printStudents()}</ul>
+            <h1>Our lovely Recipes</h1>
+            <div>
+            Name : {recipe.name}<br/>
+            Ingredients : {recipe.ingredients}<br/>
+            Cooking : {recipe.cooking}<br/>
+            Cost : {recipe.cost}
             </div>
-        
+            <h2>Add Recipe</h2>
+            Name:<input type="text" onChange={(e) => setName(e.target.value)}/>
+            Ingredients:<input type="text" onChange={(e) => setIngredients(e.target.value)}/>
+            Cooking:<input type="text" onChange={(e) => setCooking(e.target.value)}/>
+            Cost:<input type="number" onChange={(e) => setCost(e.target.value)}/>
+            <br></br>
+             
+            <button className={styles.buttoncolor} onClick={() => addRecipe(name, ingredients, cooking, cost)}>Add</button>
+            
+            <h3>Our Recipe</h3>
+            <div className={styles.list}>{printRecipes()}</div>
+            </div>
+            </Layout>
         )
         
 };
